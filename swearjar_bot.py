@@ -101,7 +101,7 @@ async def info():
 async def swear(ctx):
     message_split = ctx.message.content.split()
     if len(message_split) > 1:
-        await bot.say(r"You can only use %swear by itself. Any other arguments will not be taken into account.\nYou also may not put a dollar in the jar in someone else's name.")
+        await bot.say("""You can only use %swear by itself. Any other arguments will not be taken into account.\nYou also may not put a dollar in the jar in someone else's name.""")
     else:
         await add_dollar_count(ctx.message.author)
         '''emoji = '\N{MONEY BAG}'
