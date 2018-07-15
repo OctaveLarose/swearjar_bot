@@ -14,8 +14,6 @@ os.chdir(r'C:\Users\Octave\Desktop\Python Discord bot')
 @bot.event
 async def on_ready():
     print ("Ready to go!")
-    print ("My name is " + bot.user.name)
-    print ("My ID is " + bot.user.id)
     await bot.change_presence(game=discord.Game(name=bot_game))
 
 @bot.event
@@ -45,12 +43,26 @@ async def check_jar(ctx, user_sent:str = None):
         if user_sent[0:2] == '<@':
             user_sent = user_sent[2:-1]
             user_found = ctx.message.server.get_member(user_sent)
+            if ctx.message.server.get_member(user_found.id) is None:
+                await bot.send_message(ctx.message.channel, "User could not be found.")
         else:
             user_found = ctx.message.server.get_member_named(name=user_sent)
         if user_found is None:
             await bot.send_message(ctx.message.channel, "User could not be found.")
         else:
-            await bot.send_message(ctx.message.channel, "User FOUND : {}".format(user_found.name))
+            with open('swearjar.json', 'r') as f:
+                users = json.load(f)
+            if user_found.id not in users:
+                await bot.say("{} has not put a single dollar in the jar, and is either a very good boy or a liar.".format(user_found.name))
+            else:
+                total = users[user_found.id]['dollars']
+                string = "**{}** has put **{} ".format(user_found.name, total)
+                if total != 1:
+                    string += "dollars**"
+                else:
+                    string += "dollar**"
+                string += " in the jar."
+                await bot.say(string.format(total))
 
 @bot.command()
 async def info():
