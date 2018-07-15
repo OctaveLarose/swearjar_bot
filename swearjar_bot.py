@@ -126,6 +126,4 @@ async def add_dollar_count(user):
     except:
         print("Error : couldn't put a dollar in the jar for {}.".format(user.name))
 
-with open(r'C:\Users\Octave\Desktop\Python Discord bot\swearjar_token', 'r') as info_file:
-        token = info_file.read()
-bot.run(token)
+bot.run(os.environ['TOKEN'])
