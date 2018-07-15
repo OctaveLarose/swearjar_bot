@@ -25,7 +25,13 @@ async def on_command_error(error, ctx):
 
 @bot.event
 async def on_message(message):
-    ''
+    with open('swears_list', 'r') as swears_file:
+            swears_list = swears_file.read()
+    swears_list = swears_list.split('\n')
+    message_split = message.content.split()
+    for word in message_split:
+        if word in swears_list:
+            await add_dollar_count(message.author)
     await bot.process_commands(message)
 
 @bot.command(pass_context=True)
@@ -82,29 +88,32 @@ async def info():
 
 @bot.command(pass_context=True)
 async def swear(ctx):
-    await add_dollar_count(ctx.message.author, ctx)  
-    emoji = '\N{MONEY BAG}'
-    await bot.add_reaction(ctx.message, emoji)
+    message_split = ctx.message.content.split()
+    if len(message_split) > 1:
+        await bot.say(r"You can only use %swear by itself. Any other arguments will not be taken into account.\nYou also may not put a dollar in the jar in someone else's name.")
+    else:
+        await add_dollar_count(ctx.message.author)
+        emoji = '\N{MONEY BAG}'
+        await bot.add_reaction(ctx.message, emoji)
 
-async def add_dollar_count(user, ctx):
+async def add_dollar_count(user):
     try:
-        with open('swearjadr.json', 'r') as f:
+        with open('swearjar.json', 'r') as f:
             users_list = json.load(f)
             
         if user.id not in users_list:
             users_list[user.id] = {}
             users_list[user.id]['dollars'] = 0
-        else:
-            users_list[user.id]['dollars'] += 1
-            if 'total' not in users_list:
-                users_list['total'] = {}
-                users_list['total']['dollars'] = 0
-            users_list['total']['dollars'] += 1
+        users_list[user.id]['dollars'] += 1
+        if 'total' not in users_list:
+            users_list['total'] = {}
+            users_list['total']['dollars'] = 0
+        users_list['total']['dollars'] += 1
             
         with open('swearjar.json', 'w') as f:
             json.dump(users_list, f)
     except:
-        bot.send_message(ctx.message.channel, "Error : couldn't put a dollar in the jar for {}. Ask soap to fix it.".format(user.name))
+        print("Error : couldn't put a dollar in the jar for {}.".format(user.name))
 
 with open(r'C:\Users\Octave\Desktop\Python Discord bot\swearjar_token', 'r') as info_file:
         token = info_file.read()
