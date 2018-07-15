@@ -40,7 +40,7 @@ async def on_message(message):
     swears_list = swears_list.split('\n')
     message_split = message.content.split()
     for word in message_split:
-        if word in swears_list:
+        if word.lower() in swears_list:
             await add_dollar_count(message.author)
     await update_bot_game()
     await bot.process_commands(message)
@@ -80,7 +80,7 @@ async def check_jar(ctx, user_sent:str = None):
             with open('swearjar.json', 'r') as f:
                 users_list = json.load(f)
             if user_found.id not in users_list:
-                await bot.say("**{}** has not put a single dollar in the jar, and is either a very good boy or a liar.".format(user_found.name))
+                await bot.say("**{}** has not put a single dollar in the jar, and is a very good boy. For npw.".format(user_found.name))
             else:
                 total = users_list[user_found.id]['dollars']
                 string = "**{}** has put **{} ".format(user_found.name, total)
