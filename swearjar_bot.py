@@ -12,8 +12,6 @@ bot = commands.Bot(command_prefix='%')
 bot_name = "SwearJar_Bot"
 bot_game = ""
 
-os.chdir(r'C:\Users\Octave\Desktop\Python Discord bot')
-
 @bot.event
 async def on_ready():
     print ("Ready to go!")
