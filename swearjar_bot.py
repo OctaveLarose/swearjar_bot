@@ -12,6 +12,10 @@ bot = commands.Bot(command_prefix='%')
 bot_name = "SwearJar_Bot"
 bot_game = ""
 
+with open('swears_list', 'r') as swears_file:
+    swears_list = swears_file.read()
+swears_list = swears_list.split('\n')
+
 @bot.event
 async def on_ready():
     print ("Ready to go!")
@@ -33,9 +37,6 @@ async def update_bot_game():
 
 @bot.event
 async def on_message(message):
-    with open('swears_list', 'r') as swears_file:
-            swears_list = swears_file.read()
-    swears_list = swears_list.split('\n')
     message_split = message.content.split()
     for word in message_split:
         if word.lower() in swears_list:
