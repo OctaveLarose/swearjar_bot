@@ -92,7 +92,7 @@ async def check_jar(ctx, user_sent:str = None):
 
 @bot.command()
 async def info():
-    with open(r'C:\Users\Octave\Desktop\Python Discord bot\info', 'r') as info_file:
+    with open('info', 'r') as info_file:
         info_str = info_file.read()
     await bot.say(info_str)
 
