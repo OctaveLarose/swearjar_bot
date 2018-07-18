@@ -5,6 +5,7 @@ from discord.ext import commands
 import json
 import os
 import logging
+import re
 
 logging.basicConfig(level=logging.INFO)
 
@@ -79,7 +80,7 @@ async def check_jar(ctx, user_sent:str = None):
             with open('swearjar.json', 'r') as f:
                 users_list = json.load(f)
             if user_found.id not in users_list:
-                await bot.say("**{}** has not put a single dollar in the jar, and is a very good boy. For npw.".format(user_found.name))
+                await bot.say("**{}** has not put a single dollar in the jar, and is a very good boy or girl. For now.".format(user_found.name))
             else:
                 total = users_list[user_found.id]['dollars']
                 string = "**{}** has put **{} ".format(user_found.name, total)
