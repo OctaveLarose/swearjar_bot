@@ -24,7 +24,7 @@ async def on_ready():
 
 @bot.event
 async def on_command_error(error, ctx):
-    bot.send_message(ctx.message.channel, "The bot has fucked up, somehow. Blame <@ID>")
+    bot.send_message(ctx.message.channel, "The bot has fucked up, somehow. Blame [ID]")
 
 async def update_bot_game():
     with open('swearjar.json', 'r') as f:
